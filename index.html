@@ -10,8 +10,8 @@
 :root{
   color-scheme: light;
   --bg:#f6f7f9;--card:#ffffff;--ink:#1a2230;--muted:#6b7688;--line:#e6e9ef;
-  --brand:#3b6ef5;--brand-soft:#eaf0ff;--green:#1f9d63;--green-soft:#e6f6ee;
-  --amber:#b8860b;--amber-soft:#fdf3e0;--gray-soft:#eef1f5;--purple:#7b58e0;--purple-soft:#efeaff;
+  --brand:#2563eb;--brand-soft:#e7eefe;--green:#2563eb;--green-soft:#e7eefe;
+  --amber:#8a6a00;--amber-soft:#fdf4cf;--gray-soft:#eef1f5;--purple:#eab308;--purple-soft:#fdf4cf;--gold-deep:#b07d00;
   --radius:14px;--shadow:0 1px 3px rgba(20,30,50,.06),0 6px 20px rgba(20,30,50,.05);
 }
 *{box-sizing:border-box}
@@ -25,7 +25,7 @@ h1{font-size:22px;margin:0;letter-spacing:-.3px}
 .userbar{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted)}
 .switcher{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:14px 0 2px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:650;color:var(--muted);cursor:pointer}
-.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
 .chip.manage{color:var(--brand);border-style:dashed;border-color:#c7d3ee;font-weight:600}
 .tabs{display:flex;gap:6px;margin:14px 0 16px;background:var(--gray-soft);padding:5px;border-radius:12px;flex-wrap:wrap}
 .tab{flex:1;min-width:64px;text-align:center;padding:9px 6px;border-radius:9px;cursor:pointer;font-weight:600;font-size:13px;color:var(--muted);user-select:none;border:none;background:transparent}
@@ -48,7 +48,7 @@ h1{font-size:22px;margin:0;letter-spacing:-.3px}
 .dose-sub{font-size:12.5px;color:var(--muted);margin-top:1px}
 .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:6px}
 .pill.week{background:var(--brand-soft);color:var(--brand)}
-.pill.days{background:var(--green-soft);color:var(--green)}
+.pill.days{background:var(--purple-soft);color:var(--amber)}
 .pill.daily{background:var(--gray-soft);color:var(--muted)}
 .pill.paused{background:var(--amber-soft);color:var(--amber)}
 .exrow{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
@@ -57,17 +57,17 @@ h1{font-size:22px;margin:0;letter-spacing:-.3px}
 .ex-check.done{background:var(--purple);border-color:var(--purple)}
 .ex-check.done svg{opacity:1}
 .ex-note{flex:1;border:1px solid var(--line);border-radius:9px;padding:7px 10px;font-size:13.5px}
-.badge-ex{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--purple-soft);color:var(--purple);margin-left:4px}
+.badge-ex{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--purple-soft);color:var(--amber);margin-left:4px}
 .weekgrid{display:grid;grid-template-columns:120px repeat(7,1fr);gap:6px;align-items:center;font-size:12px}
 .weekgrid .hd{color:var(--muted);font-weight:700;text-align:center;font-size:11px}
 .weekgrid .hd.today{color:var(--brand)}
 .weekgrid .rowname{font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.weekgrid .rowname.ex{color:var(--purple)}
+.weekgrid .rowname.ex{color:var(--gold-deep)}
 .cell{height:30px;border-radius:7px;background:var(--gray-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted)}
 .cell.due{background:#fff;border:1.5px dashed #cdd5e3}
 .cell.due.logged{background:var(--green);border:none;color:#fff}
-.cell.ex{background:#fff;border:1.5px dashed #d6cdf0}
-.cell.ex.logged{background:var(--purple);border:none;color:#fff}
+.cell.ex{background:#fff;border:1.5px dashed #ecd9a0}
+.cell.ex.logged{background:var(--purple);border:none;color:#3a2c00}
 .cell.na{background:transparent;cursor:default}
 .cell.todaycol{outline:2px solid var(--brand-soft)}
 .item{border-top:1px solid var(--line);padding:14px 0}
@@ -87,7 +87,7 @@ textarea{resize:vertical;min-height:52px}
 .hist{font-size:12px;color:var(--muted);margin-top:8px}
 .hist-chip{display:inline-block;background:var(--gray-soft);border-radius:6px;padding:2px 7px;margin:2px 4px 2px 0;font-size:11.5px}
 .streak{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
-.streak b{font-size:26px;color:var(--purple)}
+.streak b{font-size:26px;color:var(--gold-deep)}
 .exday{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
 .exday:first-of-type{border-top:none}
 .exday .d{font-size:12.5px;font-weight:650;min-width:74px;color:var(--muted)}
@@ -342,7 +342,7 @@ function renderToday(){
     }else{ html+='<div class="empty" style="padding:12px">No doses scheduled today.</div>'; }
     // exercise row
     const ex=exLog(p.id,ds); const done=!!ex;
-    html+=`<div class="exrow"><div class="ex-check ${done?'done':''}" onclick="toggleExercise('${p.id}','${ds}')"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></div>
+    html+=`<div class="exrow"><div class="ex-check ${done?'done':''}" onclick="toggleExercise('${p.id}','${ds}')"><svg viewBox="0 0 24 24" fill="none" stroke="#3a2c00" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></div>
       <input class="ex-note" placeholder="Exercise today — type/duration…" value="${esc(ex?ex.note:"")}" data-exnote="${p.id}"></div>`;
     html+=`</div>`;
   });
@@ -440,7 +440,7 @@ function renderExercise(){
     const s=streakFor(p.id); const exToday=exLog(p.id,ds);
     html+=`<div class="card"><div class="person-head"><span class="person-dot"></span>${esc(p.name)}<span class="badge-ex">exercise</span></div>`;
     html+=`<div class="streak"><b>${s}</b><span class="muted">day${s===1?'':'s'} in a row</span></div>`;
-    html+=`<div class="exrow"><div class="ex-check ${exToday?'done':''}" onclick="toggleExercise('${p.id}','${ds}')"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></div>
+    html+=`<div class="exrow"><div class="ex-check ${exToday?'done':''}" onclick="toggleExercise('${p.id}','${ds}')"><svg viewBox="0 0 24 24" fill="none" stroke="#3a2c00" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></div>
       <input class="ex-note" placeholder="Today — type/duration…" value="${esc(exToday?exToday.note:"")}" data-exnote2="${p.id}"></div>`;
     if(days.length){
       html+='<div class="notes-label" style="margin-top:14px">History</div>';

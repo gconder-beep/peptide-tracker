@@ -11,7 +11,7 @@
   color-scheme: light;
   --bg:#f6f7f9;--card:#ffffff;--ink:#1a2230;--muted:#6b7688;--line:#e6e9ef;
   --brand:#3b6ef5;--brand-soft:#eaf0ff;--green:#1f9d63;--green-soft:#e6f6ee;
-  --amber:#b8860b;--amber-soft:#fdf3e0;--gray-soft:#eef1f5;
+  --amber:#b8860b;--amber-soft:#fdf3e0;--gray-soft:#eef1f5;--purple:#7b58e0;--purple-soft:#efeaff;
   --radius:14px;--shadow:0 1px 3px rgba(20,30,50,.06),0 6px 20px rgba(20,30,50,.05);
 }
 *{box-sizing:border-box}
@@ -23,13 +23,20 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 h1{font-size:22px;margin:0;letter-spacing:-.3px}
 .date{color:var(--muted);font-size:13px;margin-top:2px}
 .userbar{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted)}
-.tabs{display:flex;gap:6px;margin:18px 0 16px;background:var(--gray-soft);padding:5px;border-radius:12px;flex-wrap:wrap}
-.tab{flex:1;min-width:78px;text-align:center;padding:9px 8px;border-radius:9px;cursor:pointer;font-weight:600;font-size:13.5px;color:var(--muted);user-select:none;border:none;background:transparent}
+.switcher{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:14px 0 2px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:650;color:var(--muted);cursor:pointer}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.manage{color:var(--brand);border-style:dashed;border-color:#c7d3ee;font-weight:600}
+.tabs{display:flex;gap:6px;margin:14px 0 16px;background:var(--gray-soft);padding:5px;border-radius:12px;flex-wrap:wrap}
+.tab{flex:1;min-width:64px;text-align:center;padding:9px 6px;border-radius:9px;cursor:pointer;font-weight:600;font-size:13px;color:var(--muted);user-select:none;border:none;background:transparent}
 .tab.active{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
 .section-title{font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:700;margin:2px 0 12px}
+.person-head{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:750;margin:18px 0 8px}
+.person-head:first-child{margin-top:2px}
+.person-dot{width:9px;height:9px;border-radius:50%;background:var(--brand)}
 .muted{color:var(--muted)}
-.empty{color:var(--muted);text-align:center;padding:26px 10px;font-size:14px}
+.empty{color:var(--muted);text-align:center;padding:22px 10px;font-size:14px}
 .dose{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
 .dose:first-of-type{border-top:none}
 .check{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);flex:0 0 auto;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fff;transition:.12s}
@@ -44,13 +51,23 @@ h1{font-size:22px;margin:0;letter-spacing:-.3px}
 .pill.days{background:var(--green-soft);color:var(--green)}
 .pill.daily{background:var(--gray-soft);color:var(--muted)}
 .pill.paused{background:var(--amber-soft);color:var(--amber)}
-.weekgrid{display:grid;grid-template-columns:130px repeat(7,1fr);gap:6px;align-items:center;font-size:12px}
+.exrow{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.ex-check{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);flex:0 0 auto;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fff}
+.ex-check svg{width:15px;height:15px;opacity:0}
+.ex-check.done{background:var(--purple);border-color:var(--purple)}
+.ex-check.done svg{opacity:1}
+.ex-note{flex:1;border:1px solid var(--line);border-radius:9px;padding:7px 10px;font-size:13.5px}
+.badge-ex{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--purple-soft);color:var(--purple);margin-left:4px}
+.weekgrid{display:grid;grid-template-columns:120px repeat(7,1fr);gap:6px;align-items:center;font-size:12px}
 .weekgrid .hd{color:var(--muted);font-weight:700;text-align:center;font-size:11px}
 .weekgrid .hd.today{color:var(--brand)}
 .weekgrid .rowname{font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.weekgrid .rowname.ex{color:var(--purple)}
 .cell{height:30px;border-radius:7px;background:var(--gray-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted)}
 .cell.due{background:#fff;border:1.5px dashed #cdd5e3}
 .cell.due.logged{background:var(--green);border:none;color:#fff}
+.cell.ex{background:#fff;border:1.5px dashed #d6cdf0}
+.cell.ex.logged{background:var(--purple);border:none;color:#fff}
 .cell.na{background:transparent;cursor:default}
 .cell.todaycol{outline:2px solid var(--brand-soft)}
 .item{border-top:1px solid var(--line);padding:14px 0}
@@ -69,6 +86,12 @@ textarea{resize:vertical;min-height:52px}
 .row-actions{display:flex;gap:7px;flex-wrap:wrap}
 .hist{font-size:12px;color:var(--muted);margin-top:8px}
 .hist-chip{display:inline-block;background:var(--gray-soft);border-radius:6px;padding:2px 7px;margin:2px 4px 2px 0;font-size:11.5px}
+.streak{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+.streak b{font-size:26px;color:var(--purple)}
+.exday{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+.exday:first-of-type{border-top:none}
+.exday .d{font-size:12.5px;font-weight:650;min-width:74px;color:var(--muted)}
+.exday .n{flex:1;font-size:13.5px}
 .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .formgrid .full{grid-column:1/-1}
 .field label{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
@@ -79,20 +102,24 @@ textarea{resize:vertical;min-height:52px}
 .journal-entry:first-child{border-top:none}
 .journal-date{font-size:12px;color:var(--muted);font-weight:600}
 .journal-text{margin-top:3px;white-space:pre-wrap}
-.addbar{display:flex;justify-content:flex-end;margin-top:4px}
+.jtag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:20px;background:var(--brand-soft);color:var(--brand);margin-left:6px}
+.addbar{display:flex;justify-content:flex-end;gap:8px;margin-top:4px;align-items:center}
 dialog{border:none;border-radius:16px;padding:0;box-shadow:0 10px 50px rgba(20,30,50,.25);max-width:460px;width:92%}
 dialog::backdrop{background:rgba(20,30,50,.35)}
 .dlg-body{padding:20px}
 .dlg-title{font-size:17px;font-weight:700;margin:0 0 14px}
 .dlg-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
 .hint{font-size:12px;color:var(--muted);margin-top:6px}
+.savenote{font-size:11.5px;color:var(--muted);text-align:right;height:14px;margin-top:2px}
+.people-row{display:flex;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.people-row:first-child{border-top:none}
+.people-row input{flex:1}
 /* auth */
 #auth{max-width:380px;margin:9vh auto 0;padding:0 18px}
 .auth-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 22px}
 .auth-card h1{font-size:21px;margin:0 0 4px}
 .auth-sub{color:var(--muted);font-size:13.5px;margin-bottom:18px}
 .auth-card .field{margin-bottom:12px}
-.auth-actions{display:flex;flex-direction:column;gap:9px;margin-top:6px}
 .auth-toggle{text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
 .link{color:var(--brand);cursor:pointer;font-weight:600}
 .msg{font-size:13px;padding:9px 11px;border-radius:9px;margin-top:12px;display:none}
@@ -100,22 +127,19 @@ dialog::backdrop{background:rgba(20,30,50,.35)}
 .msg.ok{display:block;background:var(--green-soft);color:var(--green)}
 .spinner{display:inline-block;width:15px;height:15px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.savenote{font-size:11.5px;color:var(--muted);text-align:right;height:14px;margin-top:2px}
-@media(max-width:560px){.weekgrid{grid-template-columns:96px repeat(7,1fr);font-size:11px}.formgrid{grid-template-columns:1fr}}
+@media(max-width:560px){.weekgrid{grid-template-columns:88px repeat(7,1fr);font-size:11px}.formgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- AUTH SCREEN -->
+<!-- AUTH -->
 <div id="auth" style="display:none">
   <div class="auth-card">
     <h1>Peptide &amp; Vitamin Tracker</h1>
     <div class="auth-sub" id="authSub">Sign in to sync across your devices.</div>
     <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username" placeholder="you@email.com"></div>
     <div class="field"><label>Password</label><input id="authPass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
-    <div class="auth-actions">
-      <button class="btn" id="authPrimary">Sign in</button>
-    </div>
+    <div class="auth-actions"><button class="btn" id="authPrimary" style="width:100%">Sign in</button></div>
     <div class="msg" id="authMsg"></div>
     <div class="auth-toggle" id="authToggle">First time here? <span class="link" id="toggleMode">Create an account</span></div>
   </div>
@@ -124,10 +148,7 @@ dialog::backdrop{background:rgba(20,30,50,.35)}
 <!-- APP -->
 <div class="wrap" id="app" style="display:none">
   <header class="top">
-    <div>
-      <h1>Peptide &amp; Vitamin Tracker</h1>
-      <div class="date" id="todayLabel"></div>
-    </div>
+    <div><h1>Peptide &amp; Vitamin Tracker</h1><div class="date" id="todayLabel"></div></div>
     <div class="userbar">
       <span id="whoami"></span>
       <button class="btn ghost sm" id="refreshBtn">Refresh</button>
@@ -135,381 +156,404 @@ dialog::backdrop{background:rgba(20,30,50,.35)}
     </div>
   </header>
 
+  <div class="switcher" id="switcher"></div>
+
   <div class="tabs">
     <button class="tab active" data-tab="today">Today</button>
-    <button class="tab" data-tab="week">This Week</button>
+    <button class="tab" data-tab="week">Week</button>
     <button class="tab" data-tab="items">Items</button>
+    <button class="tab" data-tab="exercise">Exercise</button>
     <button class="tab" data-tab="journal">Journal</button>
   </div>
 
-  <div id="tab-today">
-    <div class="card"><div class="section-title">Due today</div><div id="todayList"></div></div>
-    <div class="card" id="pausedCard"><div class="section-title">Not started / paused</div><div id="pausedList"></div></div>
-  </div>
-
-  <div id="tab-week" style="display:none">
-    <div class="card">
-      <div class="section-title">This week &nbsp;·&nbsp; <span class="muted" id="weekRange"></span></div>
-      <div id="weekGrid"></div>
-      <div class="hint">Tap a cell to log or un-log a dose. Dashed = scheduled, green = taken.</div>
-    </div>
-  </div>
-
-  <div id="tab-items" style="display:none">
-    <div class="addbar"><button class="btn" id="addItemBtn">+ Add item</button></div>
-    <div class="card"><div class="section-title">All items</div><div id="itemsList"></div></div>
-  </div>
-
-  <div id="tab-journal" style="display:none">
-    <div class="card">
-      <div class="section-title">New journal entry</div>
-      <textarea id="journalInput" placeholder="How are you feeling? Energy, sleep, side effects, anything you noticed today…"></textarea>
-      <div class="addbar" style="margin-top:10px"><button class="btn" id="addJournalBtn">Save entry</button></div>
-    </div>
-    <div class="card"><div class="section-title">History</div><div id="journalList"></div></div>
-  </div>
+  <div id="tab-today"></div>
+  <div id="tab-week" style="display:none"></div>
+  <div id="tab-items" style="display:none"></div>
+  <div id="tab-exercise" style="display:none"></div>
+  <div id="tab-journal" style="display:none"></div>
 </div>
 
-<dialog id="itemDialog">
-  <div class="dlg-body">
-    <h3 class="dlg-title" id="dlgTitle">Add item</h3>
-    <div class="formgrid">
-      <div class="field full"><label>Name</label><input id="fName" placeholder="e.g. Vitamin D3"></div>
-      <div class="field"><label>Dose</label><input id="fDose" placeholder="e.g. 20 units / 250mcg"></div>
-      <div class="field"><label>Frequency</label>
-        <select id="fFreq">
-          <option value="daily">Every day</option>
-          <option value="weekdays">Specific days</option>
-          <option value="weekly">Once a week</option>
-        </select>
-      </div>
-      <div class="field full" id="daysWrap" style="display:none">
-        <label id="daysLabel">Days</label>
-        <div class="daysel" id="daySelect"></div>
-      </div>
-      <div class="field full"><label>Status</label>
-        <select id="fActive"><option value="true">Active</option><option value="false">Not started / paused</option></select>
-      </div>
+<!-- ITEM DIALOG -->
+<dialog id="itemDialog"><div class="dlg-body">
+  <h3 class="dlg-title" id="dlgTitle">Add item</h3>
+  <div class="formgrid">
+    <div class="field full"><label>Person</label><select id="fPerson"></select></div>
+    <div class="field full"><label>Name</label><input id="fName" placeholder="e.g. Vitamin D3"></div>
+    <div class="field"><label>Dose</label><input id="fDose" placeholder="e.g. 20 units / 250mcg"></div>
+    <div class="field"><label>Frequency</label>
+      <select id="fFreq"><option value="daily">Every day</option><option value="weekdays">Specific days</option><option value="weekly">Once a week</option></select>
     </div>
-    <div class="dlg-actions">
-      <button class="btn danger sm" id="deleteItemBtn" style="margin-right:auto;display:none">Delete</button>
-      <button class="btn ghost" id="cancelDlg">Cancel</button>
-      <button class="btn" id="saveItem">Save</button>
-    </div>
+    <div class="field full" id="daysWrap" style="display:none"><label id="daysLabel">Days</label><div class="daysel" id="daySelect"></div></div>
+    <div class="field full"><label>Status</label><select id="fActive"><option value="true">Active</option><option value="false">Not started / paused</option></select></div>
   </div>
-</dialog>
+  <div class="dlg-actions">
+    <button class="btn danger sm" id="deleteItemBtn" style="margin-right:auto;display:none">Delete</button>
+    <button class="btn ghost" id="cancelDlg">Cancel</button>
+    <button class="btn" id="saveItem">Save</button>
+  </div>
+</div></dialog>
+
+<!-- PEOPLE DIALOG -->
+<dialog id="peopleDialog"><div class="dlg-body">
+  <h3 class="dlg-title">People</h3>
+  <div id="peopleList"></div>
+  <div class="people-row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:12px">
+    <input id="newPersonName" placeholder="Add a person…">
+    <button class="btn sm" id="addPersonBtn">Add</button>
+  </div>
+  <div class="dlg-actions"><button class="btn ghost" id="closePeople">Done</button></div>
+</div></dialog>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
 const SUPABASE_URL = "https://esnzndmoqykscjymofnh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_oUZDuAH3bE7WZJB43obvLg_YKRXmArS";
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-const todayStr = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
-const parseD = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
-const fmtD = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-const esc = s => (s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const $=id=>document.getElementById(id);
+const esc=s=>(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const todayStr=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const fmtD=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const parseD=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);};
 
-let state = { items:[], logs:[], journal:[] };
-const $ = id => document.getElementById(id);
+let state={people:[],items:[],logs:[],exercise:[],journal:[]};
+let current = localStorage.getItem("pt_person") || "all"; // 'all' or person_id
 
-/* ---------------- AUTH ---------------- */
-let mode = "signin";
-function showAuthMsg(text, kind){ const m=$("authMsg"); m.textContent=text; m.className="msg "+kind; }
-function clearAuthMsg(){ $("authMsg").className="msg"; }
-
-$("toggleMode").onclick = () => {
-  mode = mode==="signin" ? "signup" : "signin";
-  clearAuthMsg();
+/* ---------- AUTH ---------- */
+let mode="signin";
+const showAuthMsg=(t,k)=>{const m=$("authMsg");m.textContent=t;m.className="msg "+k;};
+const clearAuthMsg=()=>{$("authMsg").className="msg";};
+function bindToggle(){ const el=document.querySelector("#authToggle .link"); if(el) el.onclick=doToggle; }
+function doToggle(){
+  mode=mode==="signin"?"signup":"signin"; clearAuthMsg();
   if(mode==="signup"){
     $("authSub").textContent="Create your account — data syncs everywhere you sign in.";
-    $("authPrimary").textContent="Create account";
-    $("authPass").setAttribute("autocomplete","new-password");
-    $("authToggle").innerHTML='Already have an account? <span class="link" id="toggleMode2">Sign in</span>';
+    $("authPrimary").textContent="Create account"; $("authPass").setAttribute("autocomplete","new-password");
+    $("authToggle").innerHTML='Already have an account? <span class="link">Sign in</span>';
   }else{
     $("authSub").textContent="Sign in to sync across your devices.";
-    $("authPrimary").textContent="Sign in";
-    $("authPass").setAttribute("autocomplete","current-password");
-    $("authToggle").innerHTML='First time here? <span class="link" id="toggleMode2">Create an account</span>';
+    $("authPrimary").textContent="Sign in"; $("authPass").setAttribute("autocomplete","current-password");
+    $("authToggle").innerHTML='First time here? <span class="link">Create an account</span>';
   }
-  $("toggleMode2").onclick = $("toggleMode").onclick;
-};
-
-$("authPrimary").onclick = async () => {
+  bindToggle();
+}
+$("toggleMode").onclick=doToggle;
+$("authPrimary").onclick=async()=>{
   const email=$("authEmail").value.trim(), pass=$("authPass").value;
-  if(!email||!pass){ showAuthMsg("Enter your email and password.","err"); return; }
+  if(!email||!pass){showAuthMsg("Enter your email and password.","err");return;}
   const btn=$("authPrimary"); btn.disabled=true; const label=btn.textContent;
-  btn.innerHTML='<span class="spinner"></span>'+(mode==="signup"?"Creating…":"Signing in…");
-  clearAuthMsg();
+  btn.innerHTML='<span class="spinner"></span>'+(mode==="signup"?"Creating…":"Signing in…"); clearAuthMsg();
   try{
     if(mode==="signup"){
-      const {data,error} = await sb.auth.signUp({email,password:pass});
-      if(error) throw error;
-      if(!data.session){ // confirmation still required
-        showAuthMsg("Account created. Check your email to confirm, then sign in.","ok");
-        btn.disabled=false; btn.textContent=label; return;
-      }
+      const {data,error}=await sb.auth.signUp({email,password:pass}); if(error) throw error;
+      if(!data.session){ showAuthMsg("Account created. Check your email to confirm, then sign in.","ok"); btn.disabled=false; btn.textContent=label; return; }
     }else{
-      const {error} = await sb.auth.signInWithPassword({email,password:pass});
-      if(error) throw error;
+      const {error}=await sb.auth.signInWithPassword({email,password:pass}); if(error) throw error;
     }
-  }catch(e){
-    showAuthMsg(e.message||"Something went wrong.","err");
-    btn.disabled=false; btn.textContent=label; return;
-  }
-  // onAuthStateChange handles the rest
+  }catch(e){ showAuthMsg(e.message||"Something went wrong.","err"); btn.disabled=false; btn.textContent=label; }
 };
+$("authPass").addEventListener("keydown",e=>{if(e.key==="Enter")$("authPrimary").click();});
+$("logoutBtn").onclick=async()=>{await sb.auth.signOut();};
+$("refreshBtn").onclick=async()=>{await loadAll();};
 
-$("authPass").addEventListener("keydown", e=>{ if(e.key==="Enter") $("authPrimary").click(); });
-
-$("logoutBtn").onclick = async () => { await sb.auth.signOut(); };
-$("refreshBtn").onclick = async () => { await loadAll(); };
-
-sb.auth.onAuthStateChange(async (event, session) => {
-  if(session && session.user){
-    $("auth").style.display="none";
-    $("app").style.display="";
-    $("whoami").textContent = session.user.email;
-    await loadAll();
-  }else{
-    $("app").style.display="none";
-    $("auth").style.display="";
-    const btn=$("authPrimary"); btn.disabled=false; btn.textContent = mode==="signup"?"Create account":"Sign in";
-  }
+sb.auth.onAuthStateChange(async(_e,session)=>{
+  if(session&&session.user){ $("auth").style.display="none"; $("app").style.display=""; $("whoami").textContent=session.user.email; await loadAll(); }
+  else{ $("app").style.display="none"; $("auth").style.display=""; const b=$("authPrimary"); b.disabled=false; b.textContent=mode==="signup"?"Create account":"Sign in"; }
 });
 
-/* ---------------- DATA ---------------- */
+/* ---------- DATA ---------- */
 async function loadAll(){
-  const [it,lg,jr] = await Promise.all([
+  const [pp,it,lg,ex,jr]=await Promise.all([
+    sb.from("people").select("*").order("sort",{ascending:true}).order("created_at",{ascending:true}),
     sb.from("items").select("*").order("created_at",{ascending:true}),
     sb.from("logs").select("item_id,date"),
+    sb.from("exercise_logs").select("*"),
     sb.from("journal").select("*").order("date",{ascending:false}).order("created_at",{ascending:false})
   ]);
-  state.items = it.data||[];
-  state.logs = lg.data||[];
-  state.journal = jr.data||[];
+  state.people=pp.data||[]; state.items=it.data||[]; state.logs=lg.data||[];
+  state.exercise=ex.data||[]; state.journal=jr.data||[];
+  if(current!=="all" && !state.people.some(p=>p.id===current)) current="all";
   render();
 }
 
-async function toggleLog(itemId, dateS){
-  const has = state.logs.some(l=>l.item_id===itemId && l.date===dateS);
-  if(has){
-    state.logs = state.logs.filter(l=>!(l.item_id===itemId && l.date===dateS));
-    render();
-    await sb.from("logs").delete().eq("item_id",itemId).eq("date",dateS);
-  }else{
-    state.logs.push({item_id:itemId,date:dateS});
-    render();
-    await sb.from("logs").insert({item_id:itemId,date:dateS});
-  }
-}
-window.toggleLog = toggleLog;
-
-async function activate(id){
-  const it=state.items.find(i=>i.id===id); if(!it) return;
-  it.active=true; render();
-  await sb.from("items").update({active:true}).eq("id",id);
-}
-window.activate = activate;
-
-/* ---------------- SCHEDULE HELPERS ---------------- */
-function dueOn(item,dow){ if(!item.active) return false; if(item.freq==="daily") return true; return (item.days||[]).includes(dow); }
-function logged(itemId,dateS){ return state.logs.some(l=>l.item_id===itemId && l.date===dateS); }
-function freqPill(item){
-  if(!item.active) return '<span class="pill paused">paused</span>';
-  if(item.freq==="daily") return '<span class="pill daily">daily</span>';
-  if(item.freq==="weekly") return `<span class="pill week">weekly · ${DOW[item.days?.[0]] ?? "?"}</span>`;
-  return `<span class="pill days">${(item.days||[]).map(d=>DOW[d]).join("/")}</span>`;
+/* ---------- HELPERS ---------- */
+const personName=id=>{const p=state.people.find(x=>x.id===id);return p?p.name:"—";};
+function shownPeople(){ return current==="all" ? state.people : state.people.filter(p=>p.id===current); }
+function dueOn(it,dow){ if(!it.active) return false; if(it.freq==="daily") return true; return (it.days||[]).includes(dow); }
+const logged=(itemId,ds)=>state.logs.some(l=>l.item_id===itemId&&l.date===ds);
+const exLog=(pid,ds)=>state.exercise.find(e=>e.person_id===pid&&e.date===ds);
+function freqPill(it){
+  if(!it.active) return '<span class="pill paused">paused</span>';
+  if(it.freq==="daily") return '<span class="pill daily">daily</span>';
+  if(it.freq==="weekly") return `<span class="pill week">weekly · ${DOW[it.days?.[0]]??"?"}</span>`;
+  return `<span class="pill days">${(it.days||[]).map(d=>DOW[d]).join("/")}</span>`;
 }
 
-/* ---------------- TODAY ---------------- */
+/* ---------- MUTATIONS ---------- */
+async function toggleLog(itemId,ds){
+  if(logged(itemId,ds)){ state.logs=state.logs.filter(l=>!(l.item_id===itemId&&l.date===ds)); render(); await sb.from("logs").delete().eq("item_id",itemId).eq("date",ds); }
+  else{ state.logs.push({item_id:itemId,date:ds}); render(); await sb.from("logs").insert({item_id:itemId,date:ds}); }
+}
+window.toggleLog=toggleLog;
+async function toggleExercise(pid,ds){
+  const ex=exLog(pid,ds);
+  if(ex){ state.exercise=state.exercise.filter(e=>e!==ex); render(); await sb.from("exercise_logs").delete().eq("person_id",pid).eq("date",ds); }
+  else{ const row={person_id:pid,date:ds,note:""}; state.exercise.push(row); render();
+    const {data}=await sb.from("exercise_logs").insert(row).select(); if(data&&data[0]){row.id=data[0].id;} }
+}
+window.toggleExercise=toggleExercise;
+async function saveExerciseNote(pid,ds,note){
+  let ex=exLog(pid,ds);
+  if(!ex){ const row={person_id:pid,date:ds,note}; state.exercise.push(row);
+    const {data}=await sb.from("exercise_logs").insert(row).select(); if(data&&data[0]) row.id=data[0].id; render(); }
+  else{ ex.note=note; await sb.from("exercise_logs").update({note}).eq("person_id",pid).eq("date",ds); }
+}
+window.saveExerciseNote=saveExerciseNote;
+async function activate(id){ const it=state.items.find(i=>i.id===id); if(!it)return; it.active=true; render(); await sb.from("items").update({active:true}).eq("id",id); }
+window.activate=activate;
+
+/* ---------- SWITCHER ---------- */
+function renderSwitcher(){
+  const sw=$("switcher");
+  if(!state.people.length){ sw.innerHTML='<button class="chip manage" id="mng">＋ Add a person</button>'; $("mng").onclick=openPeople; return; }
+  let html=`<button class="chip ${current==="all"?"on":""}" data-p="all">All</button>`;
+  state.people.forEach(p=>{ html+=`<button class="chip ${current===p.id?"on":""}" data-p="${p.id}">${esc(p.name)}</button>`; });
+  html+='<button class="chip manage" id="mng">⚙ People</button>';
+  sw.innerHTML=html;
+  sw.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{ current=b.dataset.p; localStorage.setItem("pt_person",current); render(); });
+  $("mng").onclick=openPeople;
+}
+
+/* ---------- TODAY ---------- */
 function renderToday(){
+  const el=$("tab-today");
+  if(!state.people.length){ el.innerHTML=emptyPeople(); wireEmpty(); return; }
   const dow=new Date().getDay(), ds=todayStr();
-  const due=state.items.filter(it=>dueOn(it,dow));
-  const el=$("todayList");
-  el.innerHTML = due.length ? due.map(it=>{
-    const done=logged(it.id,ds);
-    return `<div class="dose">
-      <div class="check ${done?'done':''}" onclick="toggleLog('${it.id}','${ds}')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></div>
-      <div class="dose-main"><div class="dose-name">${esc(it.name)} ${freqPill(it)}</div>
-      <div class="dose-sub">${esc(it.dose)}</div></div></div>`;
-  }).join("") : '<div class="empty">Nothing scheduled for today. Enjoy the day off. 🎉</div>';
-
-  const paused=state.items.filter(it=>!it.active);
-  const pc=$("pausedCard");
-  if(!paused.length){ pc.style.display="none"; }
-  else{ pc.style.display="";
-    $("pausedList").innerHTML=paused.map(it=>`<div class="dose"><div class="dose-main">
-      <div class="dose-name">${esc(it.name)} <span class="pill paused">not started</span></div>
-      <div class="dose-sub">${esc(it.dose)}</div></div>
+  let html="";
+  shownPeople().forEach(p=>{
+    const due=state.items.filter(it=>it.person_id===p.id&&dueOn(it,dow));
+    html+=`<div class="card"><div class="person-head"><span class="person-dot"></span>${esc(p.name)}</div>`;
+    if(due.length){
+      html+=due.map(it=>{const done=logged(it.id,ds);
+        return `<div class="dose"><div class="check ${done?'done':''}" onclick="toggleLog('${it.id}','${ds}')"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></div>
+        <div class="dose-main"><div class="dose-name">${esc(it.name)} ${freqPill(it)}</div><div class="dose-sub">${esc(it.dose||"")}</div></div></div>`;
+      }).join("");
+    }else{ html+='<div class="empty" style="padding:12px">No doses scheduled today.</div>'; }
+    // exercise row
+    const ex=exLog(p.id,ds); const done=!!ex;
+    html+=`<div class="exrow"><div class="ex-check ${done?'done':''}" onclick="toggleExercise('${p.id}','${ds}')"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></div>
+      <input class="ex-note" placeholder="Exercise today — type/duration…" value="${esc(ex?ex.note:"")}" data-exnote="${p.id}"></div>`;
+    html+=`</div>`;
+  });
+  // paused
+  const paused=state.items.filter(it=>!it.active && (current==="all"||it.person_id===current));
+  if(paused.length){
+    html+='<div class="card"><div class="section-title">Not started / paused</div>';
+    html+=paused.map(it=>`<div class="dose"><div class="dose-main"><div class="dose-name">${esc(it.name)} <span class="pill paused">not started</span></div>
+      <div class="dose-sub">${esc(personName(it.person_id))} · ${esc(it.dose||"")}</div></div>
       <button class="btn ghost sm" onclick="activate('${it.id}')">Start</button></div>`).join("");
+    html+='</div>';
   }
+  el.innerHTML=html;
+  el.querySelectorAll("[data-exnote]").forEach(inp=>{ inp.addEventListener("change",()=>saveExerciseNote(inp.dataset.exnote,ds,inp.value)); });
 }
 
-/* ---------------- WEEK ---------------- */
-function weekStart(){ const d=new Date(); d.setDate(d.getDate()-d.getDay()); d.setHours(0,0,0,0); return d; }
+/* ---------- WEEK ---------- */
+function weekStart(){const d=new Date();d.setDate(d.getDate()-d.getDay());d.setHours(0,0,0,0);return d;}
 function renderWeek(){
+  const el=$("tab-week");
+  if(!state.people.length){ el.innerHTML=emptyPeople(); wireEmpty(); return; }
   const ws=weekStart(); const days=[...Array(7)].map((_,i)=>{const d=new Date(ws);d.setDate(ws.getDate()+i);return d;});
   const todayS=todayStr();
-  $("weekRange").textContent = `${DOW[0]} ${days[0].getMonth()+1}/${days[0].getDate()} – ${DOW[6]} ${days[6].getMonth()+1}/${days[6].getDate()}`;
-  const active=state.items.filter(i=>i.active);
-  let html='<div class="weekgrid"><div class="hd"></div>';
-  days.forEach(d=>{ const t=fmtD(d)===todayS; html+=`<div class="hd ${t?'today':''}">${DOW[d.getDay()]}<br>${d.getDate()}</div>`; });
-  html+='</div>';
-  if(!active.length){ $("weekGrid").innerHTML=html+'<div class="empty">No active items yet.</div>'; return; }
-  html+='<div class="weekgrid" style="margin-top:6px">';
-  active.forEach(it=>{
-    html+=`<div class="rowname" title="${esc(it.name)}">${esc(it.name)}</div>`;
-    days.forEach(d=>{
-      const ds=fmtD(d), due=dueOn(it,d.getDay()), lg=logged(it.id,ds), tc=ds===todayS?'todaycol':'';
-      html += due ? `<div class="cell due ${lg?'logged':''} ${tc}" onclick="toggleLog('${it.id}','${ds}')">${lg?'✓':''}</div>`
-                  : `<div class="cell na ${tc}"></div>`;
+  let html="";
+  shownPeople().forEach(p=>{
+    const active=state.items.filter(it=>it.person_id===p.id&&it.active);
+    html+=`<div class="card"><div class="person-head"><span class="person-dot"></span>${esc(p.name)}</div>`;
+    html+='<div class="weekgrid"><div class="hd"></div>';
+    days.forEach(d=>{const t=fmtD(d)===todayS;html+=`<div class="hd ${t?'today':''}">${DOW[d.getDay()]}<br>${d.getDate()}</div>`;});
+    html+='</div><div class="weekgrid" style="margin-top:6px">';
+    active.forEach(it=>{
+      html+=`<div class="rowname" title="${esc(it.name)}">${esc(it.name)}</div>`;
+      days.forEach(d=>{const ds=fmtD(d),due=dueOn(it,d.getDay()),lg=logged(it.id,ds),tc=ds===todayS?'todaycol':'';
+        html+= due?`<div class="cell due ${lg?'logged':''} ${tc}" onclick="toggleLog('${it.id}','${ds}')">${lg?'✓':''}</div>`:`<div class="cell na ${tc}"></div>`;});
     });
+    // exercise row
+    html+=`<div class="rowname ex">Exercise</div>`;
+    days.forEach(d=>{const ds=fmtD(d),lg=!!exLog(p.id,ds),tc=ds===todayS?'todaycol':'';
+      html+=`<div class="cell ex ${lg?'logged':''} ${tc}" onclick="toggleExercise('${p.id}','${ds}')">${lg?'✓':''}</div>`;});
+    html+='</div>';
+    if(!active.length) html+='<div class="empty" style="padding:10px">No active items.</div>';
+    html+='</div>';
   });
-  html+='</div>';
-  $("weekGrid").innerHTML=html;
+  el.innerHTML=html;
 }
 
-/* ---------------- ITEMS ---------------- */
+/* ---------- ITEMS ---------- */
 function renderItems(){
-  const el=$("itemsList");
-  if(!state.items.length){
-    el.innerHTML='<div class="empty">No items yet. Tap <b>+ Add item</b> above to add your first peptide or vitamin.</div>';
-    return;
-  }
-  el.innerHTML=state.items.map(it=>{
-    const mine=state.logs.filter(l=>l.item_id===it.id).map(l=>l.date).sort((a,b)=>b.localeCompare(a));
-    const recent=mine.slice(0,6);
-    const hist=recent.length? recent.map(d=>`<span class="hist-chip">${d.slice(5)}</span>`).join("") : '<span class="muted">no doses logged yet</span>';
-    return `<div class="item">
-      <div class="item-head">
-        <div><div class="item-title">${esc(it.name)} ${freqPill(it)}</div>
-        <div class="item-meta">${esc(it.dose)} &nbsp;·&nbsp; ${mine.length} dose${mine.length===1?'':'s'} logged</div></div>
-        <div class="row-actions"><button class="btn ghost sm" onclick="editItem('${it.id}')">Edit</button></div>
-      </div>
-      <div class="notes-label">Notes &amp; effects</div>
-      <textarea data-notes="${it.id}" placeholder="Log any effects you feel — energy, sleep, appetite, mood, side effects…">${esc(it.notes||"")}</textarea>
-      <div class="savenote" data-savenote="${it.id}"></div>
-      <div class="hist"><b>Recent doses:</b> ${hist}</div>
-    </div>`;
-  }).join("");
+  const el=$("tab-items");
+  if(!state.people.length){ el.innerHTML=emptyPeople(); wireEmpty(); return; }
+  let html='<div class="addbar"><button class="btn" id="addItemBtn">+ Add item</button></div>';
+  shownPeople().forEach(p=>{
+    const its=state.items.filter(it=>it.person_id===p.id);
+    html+=`<div class="card"><div class="person-head"><span class="person-dot"></span>${esc(p.name)}</div>`;
+    if(!its.length){ html+='<div class="empty" style="padding:12px">No items yet.</div>'; }
+    else html+=its.map(it=>{
+      const mine=state.logs.filter(l=>l.item_id===it.id).map(l=>l.date).sort((a,b)=>b.localeCompare(a));
+      const recent=mine.slice(0,6);
+      const hist=recent.length?recent.map(d=>`<span class="hist-chip">${d.slice(5)}</span>`).join(""):'<span class="muted">no doses logged yet</span>';
+      return `<div class="item"><div class="item-head">
+        <div><div class="item-title">${esc(it.name)} ${freqPill(it)}</div><div class="item-meta">${esc(it.dose||"")} &nbsp;·&nbsp; ${mine.length} dose${mine.length===1?'':'s'} logged</div></div>
+        <div class="row-actions"><button class="btn ghost sm" onclick="editItem('${it.id}')">Edit</button></div></div>
+        <div class="notes-label">Notes &amp; effects</div>
+        <textarea data-notes="${it.id}" placeholder="Log any effects — energy, sleep, appetite, mood, side effects…">${esc(it.notes||"")}</textarea>
+        <div class="savenote" data-savenote="${it.id}"></div>
+        <div class="hist"><b>Recent doses:</b> ${hist}</div></div>`;
+    }).join("");
+    html+='</div>';
+  });
+  el.innerHTML=html;
+  $("addItemBtn").onclick=()=>openDlg(null);
   el.querySelectorAll("textarea[data-notes]").forEach(t=>{
-    const save=async()=>{ const id=t.dataset.notes;
-      const flag=document.querySelector(`[data-savenote="${id}"]`);
-      await sb.from("items").update({notes:t.value}).eq("id",id);
-      const it=state.items.find(i=>i.id===id); if(it) it.notes=t.value;
-      if(flag){ flag.textContent="Saved ✓"; setTimeout(()=>{flag.textContent="";},1500); }
-    };
-    t.addEventListener("change",save);
+    t.addEventListener("change",async()=>{ const id=t.dataset.notes; const flag=document.querySelector(`[data-savenote="${id}"]`);
+      await sb.from("items").update({notes:t.value}).eq("id",id); const it=state.items.find(i=>i.id===id); if(it) it.notes=t.value;
+      if(flag){flag.textContent="Saved ✓";setTimeout(()=>flag.textContent="",1500);} });
   });
 }
-window.editItem = openDlg;
+window.editItem=openDlg;
 
-/* ---------------- JOURNAL ---------------- */
+/* ---------- EXERCISE ---------- */
+function streakFor(pid){
+  let n=0; const d=new Date();
+  // if today not logged, start counting from yesterday
+  if(!exLog(pid,fmtD(d))) d.setDate(d.getDate()-1);
+  while(exLog(pid,fmtD(d))){ n++; d.setDate(d.getDate()-1); }
+  return n;
+}
+function renderExercise(){
+  const el=$("tab-exercise");
+  if(!state.people.length){ el.innerHTML=emptyPeople(); wireEmpty(); return; }
+  const ds=todayStr();
+  let html="";
+  shownPeople().forEach(p=>{
+    const days=state.exercise.filter(e=>e.person_id===p.id).slice().sort((a,b)=>b.date.localeCompare(a.date));
+    const s=streakFor(p.id); const exToday=exLog(p.id,ds);
+    html+=`<div class="card"><div class="person-head"><span class="person-dot"></span>${esc(p.name)}<span class="badge-ex">exercise</span></div>`;
+    html+=`<div class="streak"><b>${s}</b><span class="muted">day${s===1?'':'s'} in a row</span></div>`;
+    html+=`<div class="exrow"><div class="ex-check ${exToday?'done':''}" onclick="toggleExercise('${p.id}','${ds}')"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></div>
+      <input class="ex-note" placeholder="Today — type/duration…" value="${esc(exToday?exToday.note:"")}" data-exnote2="${p.id}"></div>`;
+    if(days.length){
+      html+='<div class="notes-label" style="margin-top:14px">History</div>';
+      html+=days.map(e=>`<div class="exday"><div class="d">${prettyShort(e.date)}</div><div class="n">${e.note?esc(e.note):'<span class="muted">logged</span>'} <button class="btn danger sm" style="float:right" onclick="delExercise('${p.id}','${e.date}')">×</button></div></div>`).join("");
+    }else{ html+='<div class="empty" style="padding:12px">No workouts logged yet.</div>'; }
+    html+='</div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll("[data-exnote2]").forEach(inp=>{ inp.addEventListener("change",()=>saveExerciseNote(inp.dataset.exnote2,ds,inp.value)); });
+}
+const prettyShort=s=>parseD(s).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+async function delExercise(pid,ds){ state.exercise=state.exercise.filter(e=>!(e.person_id===pid&&e.date===ds)); render(); await sb.from("exercise_logs").delete().eq("person_id",pid).eq("date",ds); }
+window.delExercise=delExercise;
+
+/* ---------- JOURNAL ---------- */
 function renderJournal(){
-  const el=$("journalList");
-  if(!state.journal.length){ el.innerHTML='<div class="empty">No entries yet.</div>'; return; }
-  el.innerHTML=state.journal.map(e=>`<div class="journal-entry">
-    <div class="journal-date">${prettyDate(e.date)} <button class="btn danger sm" style="float:right" onclick="delJournal('${e.id}')">×</button></div>
-    <div class="journal-text">${esc(e.body)}</div></div>`).join("");
+  const el=$("tab-journal");
+  if(!state.people.length){ el.innerHTML=emptyPeople(); wireEmpty(); return; }
+  const opts=state.people.map(p=>`<option value="${p.id}" ${current===p.id?'selected':''}>${esc(p.name)}</option>`).join("");
+  let html=`<div class="card"><div class="section-title">New journal entry</div>
+    <div class="field" style="margin-bottom:10px"><label>Person</label><select id="jPerson">${opts}</select></div>
+    <textarea id="journalInput" placeholder="How is ${current==="all"?"everyone":esc(personName(current))} feeling? Energy, sleep, side effects…"></textarea>
+    <div class="addbar" style="margin-top:10px"><button class="btn" id="addJournalBtn">Save entry</button></div></div>`;
+  const list=state.journal.filter(e=>current==="all"||e.person_id===current);
+  html+='<div class="card"><div class="section-title">History</div>';
+  html+= list.length ? list.map(e=>`<div class="journal-entry"><div class="journal-date">${prettyDate(e.date)}${current==="all"?`<span class="jtag">${esc(personName(e.person_id))}</span>`:''} <button class="btn danger sm" style="float:right" onclick="delJournal('${e.id}')">×</button></div><div class="journal-text">${esc(e.body)}</div></div>`).join("") : '<div class="empty">No entries yet.</div>';
+  html+='</div>';
+  el.innerHTML=html;
+  $("addJournalBtn").onclick=async()=>{
+    const v=$("journalInput").value.trim(); if(!v)return;
+    const pid=$("jPerson").value; const btn=$("addJournalBtn"); btn.disabled=true;
+    const {data,error}=await sb.from("journal").insert({body:v,date:todayStr(),person_id:pid}).select(); btn.disabled=false;
+    if(error){alert("Couldn't save: "+error.message);return;}
+    if(data&&data[0]) state.journal.unshift(data[0]); renderJournal();
+  };
 }
-function prettyDate(s){ const d=parseD(s); return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'}); }
+const prettyDate=s=>parseD(s).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'});
 async function delJournal(id){ state.journal=state.journal.filter(e=>e.id!==id); renderJournal(); await sb.from("journal").delete().eq("id",id); }
-window.delJournal = delJournal;
+window.delJournal=delJournal;
 
-$("addJournalBtn").onclick=async()=>{
-  const t=$("journalInput"); const v=t.value.trim(); if(!v) return;
-  const btn=$("addJournalBtn"); btn.disabled=true;
-  const {data,error}=await sb.from("journal").insert({body:v,date:todayStr()}).select();
-  btn.disabled=false;
-  if(error){ alert("Couldn't save: "+error.message); return; }
-  t.value=""; if(data&&data[0]) state.journal.unshift(data[0]); renderJournal();
-};
+/* ---------- EMPTY (no people) ---------- */
+const emptyPeople=()=>'<div class="card"><div class="empty">Add a person to get started (e.g. yourself, or a family member).<br><br><button class="btn" id="firstPerson">＋ Add a person</button></div></div>';
+function wireEmpty(){ const b=$("firstPerson"); if(b) b.onclick=openPeople; }
 
-/* ---------------- DIALOG ---------------- */
+/* ---------- ITEM DIALOG ---------- */
 const dlg=$("itemDialog"); let editingId=null;
-function renderDaySelect(sel){
-  const box=$("daySelect");
-  box.innerHTML=DOW.map((d,i)=>`<button type="button" data-d="${i}" class="${sel.includes(i)?'on':''}">${d}</button>`).join("");
-  box.querySelectorAll("button").forEach(b=>b.onclick=()=>b.classList.toggle("on"));
-}
-function syncDaysVisibility(){
-  const f=$("fFreq").value;
-  $("daysLabel").textContent = f==="weekly"?"Day of week":"Days";
-  $("daysWrap").style.display = f==="daily" ? "none" : "";
-}
-$("fFreq").onchange=syncDaysVisibility;
-$("addItemBtn").onclick=()=>openDlg(null);
-
+function fillPersonSelect(selId){ $("fPerson").innerHTML=state.people.map(p=>`<option value="${p.id}" ${p.id===selId?'selected':''}>${esc(p.name)}</option>`).join(""); }
+function renderDaySelect(sel){ const box=$("daySelect"); box.innerHTML=DOW.map((d,i)=>`<button type="button" data-d="${i}" class="${sel.includes(i)?'on':''}">${d}</button>`).join(""); box.querySelectorAll("button").forEach(b=>b.onclick=()=>b.classList.toggle("on")); }
+function syncDays(){ const f=$("fFreq").value; $("daysLabel").textContent=f==="weekly"?"Day of week":"Days"; $("daysWrap").style.display=f==="daily"?"none":""; }
+$("fFreq").onchange=syncDays;
 function openDlg(id){
-  editingId=id;
-  const del=$("deleteItemBtn");
-  if(id){
-    const it=state.items.find(i=>i.id===id);
-    $("dlgTitle").textContent="Edit item";
-    $("fName").value=it.name; $("fDose").value=it.dose||"";
-    $("fFreq").value=it.freq; $("fActive").value=String(it.active);
+  if(!state.people.length){ openPeople(); return; }
+  editingId=id; const del=$("deleteItemBtn");
+  if(id){ const it=state.items.find(i=>i.id===id);
+    $("dlgTitle").textContent="Edit item"; fillPersonSelect(it.person_id);
+    $("fName").value=it.name; $("fDose").value=it.dose||""; $("fFreq").value=it.freq; $("fActive").value=String(it.active);
     renderDaySelect(it.days||[]); del.style.display="";
   }else{
-    $("dlgTitle").textContent="Add item";
-    $("fName").value=""; $("fDose").value="";
-    $("fFreq").value="daily"; $("fActive").value="true";
+    $("dlgTitle").textContent="Add item"; fillPersonSelect(current!=="all"?current:state.people[0].id);
+    $("fName").value=""; $("fDose").value=""; $("fFreq").value="daily"; $("fActive").value="true";
     renderDaySelect([]); del.style.display="none";
   }
-  syncDaysVisibility(); dlg.showModal();
+  syncDays(); dlg.showModal();
 }
 $("cancelDlg").onclick=()=>dlg.close();
-
-$("deleteItemBtn").onclick=async()=>{
-  if(editingId && confirm("Delete this item? Its logged doses will also be removed.")){
-    const id=editingId; state.items=state.items.filter(i=>i.id!==id); dlg.close(); render();
-    await sb.from("items").delete().eq("id",id);
-  }
-};
-
+$("deleteItemBtn").onclick=async()=>{ if(editingId&&confirm("Delete this item? Its logged doses will also be removed.")){ const id=editingId; state.items=state.items.filter(i=>i.id!==id); dlg.close(); render(); await sb.from("items").delete().eq("id",id); } };
 $("saveItem").onclick=async()=>{
   const name=$("fName").value.trim(); if(!name){alert("Name required");return;}
-  const dose=$("fDose").value.trim();
-  const freq=$("fFreq").value;
-  const active=$("fActive").value==="true";
+  const person_id=$("fPerson").value, dose=$("fDose").value.trim(), freq=$("fFreq").value, active=$("fActive").value==="true";
   let days=[...document.querySelectorAll("#daySelect button.on")].map(b=>+b.dataset.d);
-  if(freq==="weekly" && days.length>1) days=[days[0]];
-  if(freq==="daily") days=[];
-  if(freq!=="daily" && !days.length){ alert("Pick at least one day"); return; }
+  if(freq==="weekly"&&days.length>1) days=[days[0]]; if(freq==="daily") days=[];
+  if(freq!=="daily"&&!days.length){alert("Pick at least one day");return;}
   const btn=$("saveItem"); btn.disabled=true;
-  if(editingId){
-    await sb.from("items").update({name,dose,freq,active,days}).eq("id",editingId);
-  }else{
-    await sb.from("items").insert({name,dose,freq,active,days,notes:""});
-  }
+  if(editingId) await sb.from("items").update({name,dose,freq,active,days,person_id}).eq("id",editingId);
+  else await sb.from("items").insert({name,dose,freq,active,days,person_id,notes:""});
   btn.disabled=false; dlg.close(); await loadAll();
 };
 
-/* ---------------- TABS ---------------- */
+/* ---------- PEOPLE DIALOG ---------- */
+const pdlg=$("peopleDialog");
+function openPeople(){ renderPeopleList(); pdlg.showModal(); }
+$("closePeople").onclick=()=>pdlg.close();
+function renderPeopleList(){
+  const el=$("peopleList");
+  el.innerHTML = state.people.length ? state.people.map(p=>`<div class="people-row">
+      <input value="${esc(p.name)}" data-pname="${p.id}">
+      <button class="btn ghost sm" data-prename="${p.id}">Save</button>
+      <button class="btn danger sm" data-pdel="${p.id}">Delete</button></div>`).join("") : '<div class="empty" style="padding:8px">No people yet.</div>';
+  el.querySelectorAll("[data-prename]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.prename; const nm=el.querySelector(`[data-pname="${id}"]`).value.trim(); if(!nm)return; await sb.from("people").update({name:nm}).eq("id",id); const p=state.people.find(x=>x.id===id); if(p)p.name=nm; render(); });
+  el.querySelectorAll("[data-pdel]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.pdel; if(!confirm("Delete this person and ALL their items, logs, notes, exercise and journal?"))return; await sb.from("people").delete().eq("id",id); if(current===id){current="all";localStorage.setItem("pt_person","all");} await loadAll(); renderPeopleList(); });
+}
+$("addPersonBtn").onclick=async()=>{
+  const nm=$("newPersonName").value.trim(); if(!nm)return;
+  const btn=$("addPersonBtn"); btn.disabled=true;
+  const {data,error}=await sb.from("people").insert({name:nm,sort:state.people.length}).select(); btn.disabled=false;
+  if(error){alert(error.message);return;}
+  $("newPersonName").value=""; if(data&&data[0]) state.people.push(data[0]); render(); renderPeopleList();
+};
+$("newPersonName").addEventListener("keydown",e=>{if(e.key==="Enter")$("addPersonBtn").click();});
+
+/* ---------- TABS + RENDER ---------- */
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  t.classList.add("active");
-  ["today","week","items","journal"].forEach(n=>$("tab-"+n).style.display = n===t.dataset.tab?"":"none");
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active")); t.classList.add("active");
+  ["today","week","items","exercise","journal"].forEach(n=>$("tab-"+n).style.display=n===t.dataset.tab?"":"none");
 });
+function render(){ renderSwitcher(); renderToday(); renderWeek(); renderItems(); renderExercise(); renderJournal(); }
+$("todayLabel").textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden&&$("app").style.display!=="none") loadAll(); });
 
-function render(){ renderToday(); renderWeek(); renderItems(); renderJournal(); }
-$("todayLabel").textContent = new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-
-// refetch when returning to the tab (near-live cross-device sync)
-document.addEventListener("visibilitychange",()=>{ if(!document.hidden && $("app").style.display!=="none") loadAll(); });
-
-// initial session check
 (async()=>{
-  const { data:{ session } } = await sb.auth.getSession();
-  if(session && session.user){
-    $("auth").style.display="none"; $("app").style.display="";
-    $("whoami").textContent=session.user.email; await loadAll();
-  }else{
-    $("auth").style.display="";
-  }
+  const {data:{session}}=await sb.auth.getSession();
+  if(session&&session.user){ $("auth").style.display="none"; $("app").style.display=""; $("whoami").textContent=session.user.email; await loadAll(); }
+  else $("auth").style.display="";
 })();
 </script>
 </body>
